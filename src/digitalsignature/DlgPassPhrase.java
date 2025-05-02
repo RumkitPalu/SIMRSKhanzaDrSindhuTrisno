@@ -18,6 +18,7 @@ import fungsi.akses;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
@@ -27,6 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -56,7 +58,7 @@ public class DlgPassPhrase extends javax.swing.JDialog {
     private JsonNode nameNode,code,metadata;
     private JsonNode response;
     private TteApi apiTte=new TteApi();
-    private String kodeFile;
+    private String kodeFile, txtListTTE;
 
     /** Creates new form DlgPemberianObat
      * @param parent
@@ -332,59 +334,61 @@ public class DlgPassPhrase extends javax.swing.JDialog {
             }else{
                 username=Sequel.cariIsi("select nama from pegawai where nik=?",akses.getkode());
             }
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             uploadPdf(txtNamaFile.getText(),txtLokasiFile.getText().split("/")[1]);
             try {
-                link="http://"+koneksiDB.HOSTHYBRIDWEBTTE()+":"+koneksiDB.PORTWEBTTE()+"/"+koneksiDB.HYBRIDWEB()+"/berkastte/";
-                URL = link+"signtte.php";
+                URL="http://"+koneksiDB.HOSTHYBRIDWEBTTE()+":"+koneksiDB.PORTWEBTTE()+"/api/v2/sign/pdf";
                 System.out.println(URL);
                 headers= new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
-                switch (tipeBerkas) {
-                    case "Surat Kontrol":
+                switch (txtListTTE) {
+                    case "TTE 1":
                         requestJson =" {" +
                             "\"nik\":\""+txtNik.getText()+"\","+
-                            "\"id\":\""+akses.getkode()+"\","+
                             "\"passphrase\":\""+txtPassPhrase.getText()+"\","+
-                            "\"document\":\""+txtNamaFile.getText()+"\","+
+                            "\"idUser\":\""+akses.getkode()+"\","+
+                            "\"namaPdf\":\""+txtNamaFile.getText()+"\","+
                             "\"location\":\""+txtLokasiFile.getText()+"\","+
-                            "\"tag\":\"#\","+
-                            "\"image\":\"false\","+
-                            "\"tampilan\":\"invisible\""+
-                        "}" ;
+                            "\"tag\":\"|\","+
+                            "\"tampilan\":\"VISIBLE\","+
+                            "\"page\":\"1\""+
+                        "}";
                         break;
-                    case "SEP":
+                    case "TTE 2":
                         requestJson =" {" +
                             "\"nik\":\""+txtNik.getText()+"\","+
-                            "\"id\":\""+akses.getkode()+"\","+
                             "\"passphrase\":\""+txtPassPhrase.getText()+"\","+
-                            "\"document\":\""+txtNamaFile.getText()+"\","+
+                            "\"idUser\":\""+akses.getkode()+"\","+
+                            "\"namaPdf\":\""+txtNamaFile.getText()+"\","+
                             "\"location\":\""+txtLokasiFile.getText()+"\","+
-                            "\"tag\":\"#\","+
-                            "\"image\":\"false\","+
-                            "\"tampilan\":\"invisible\""+
-                        "}" ;
+                            "\"tag\":\"~\","+
+                            "\"tampilan\":\"VISIBLE\","+
+                            "\"page\":\"1\""+
+                        "}";
                         break;
-                    default:
+                    case "TTE 3":
                         requestJson =" {" +
-                            "\"nik\":\""+txtNik.getText()+"\","+
-                            "\"id\":\""+akses.getkode()+"\","+
+                             "\"nik\":\""+txtNik.getText()+"\","+
                             "\"passphrase\":\""+txtPassPhrase.getText()+"\","+
-                            "\"document\":\""+txtNamaFile.getText()+"\","+
+                            "\"idUser\":\""+akses.getkode()+"\","+
+                            "\"namaPdf\":\""+txtNamaFile.getText()+"\","+
                             "\"location\":\""+txtLokasiFile.getText()+"\","+
-                            "\"tag\":\"#\","+
-                            "\"image\":\"true\","+
-                            "\"tampilan\":\"visible\""+
-                        "}" ;
+                            "\"tag\":\"^\","+
+                            "\"tampilan\":\"VISIBLE\","+
+                            "\"page\":\"1\""+
+                        "}";
+                        break;
                 }
                 requestEntity = new HttpEntity(requestJson,headers);
                 root = mapper.readTree(apiTte.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
                 metadata = root.path("metadata");
-                System.out.println(kodeFile);
                 System.out.println("Hasil"+metadata);
                 System.out.println("Hasil"+URL);
-                JOptionPane.showMessageDialog(null,metadata.path("message").asText());        
-                    if(metadata.path("code").asText().equals("200")){
-                        Sequel.menyimpantf("berkas_tte","?,?,?,?,?,?,?","No.Rawat",7,new String[]{
+                System.out.println("Hasil"+metadata.path("datetime").asText());
+                JOptionPane.showMessageDialog(null,metadata.path("message").asText());
+                this.setCursor(Cursor.getDefaultCursor());
+                if(metadata.path("code").asText().equals("200")){
+                    Sequel.menyimpantf("berkas_tte","?,?,?,?,?,?,?","No.Rawat",7,new String[]{
                         txtNamaFile.getText(),txtNoRawat.getText(),metadata.path("datetime").asText(),kodeFile,txtLokasiFile.getText(),txtNamaFile.getText(),"MEDIS"
                     });
                     dispose(); 
@@ -527,13 +531,13 @@ public class DlgPassPhrase extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     
 
-    public void setNamaFile(String namaFile,String pathFile,String NoRawat, String kodFile, String tipeFile) {
+    public void setNamaFile(String namaFile,String pathFile,String NoRawat, String kodFile, String tipeFile, String listTTE) {
         txtNamaFile.setText(namaFile);
         txtLokasiFile.setText(pathFile);
         txtNoRawat.setText(NoRawat);
         kodeFile = kodFile;
         tipeBerkas=tipeFile;
-        System.out.println(tipeFile);
+        txtListTTE=listTTE;
     }
     
     public void isCek(){
@@ -552,17 +556,19 @@ void uploadPdf(String FileName,String docpath){
         byte[] data = new byte[(int) file.length()];
         data = FileUtils.readFileToByteArray(file);
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost postRequest = new HttpPost("http://"+koneksiDB.HOSTHYBRIDWEBTTE()+":"+koneksiDB.PORTWEBTTE()+"/"+koneksiDB.HYBRIDWEB()+"/berkastte/upload.php?doc="+docpath);
+        HttpPost postRequest = new HttpPost("http://"+koneksiDB.HOSTHYBRIDWEBTTE()+":"+koneksiDB.PORTWEBTTE()+"/upload");
         ByteArrayBody fileData = new ByteArrayBody(data, FileName);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         reqEntity.addPart("file", fileData); 
         postRequest.setEntity(reqEntity);
-        HttpResponse response = (HttpResponse) httpClient.execute(postRequest); 
+        HttpResponse response = (HttpResponse) httpClient.execute(postRequest);
+        System.out.println(response);
 //        deleteFile();
         }catch (Exception e){
             System.out.println(e);
         }
 }
+
 void deleteFile(){
        File file = new File("tempfile");      
         String[] myFiles;    

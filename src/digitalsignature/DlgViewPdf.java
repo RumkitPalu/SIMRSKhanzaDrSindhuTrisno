@@ -20,14 +20,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.net.http.HttpResponse;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.icepdf.ri.common.ComponentKeyBinding;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
@@ -100,6 +104,7 @@ public class DlgViewPdf extends javax.swing.JDialog {
         BtnSignTTE = new widget.Button();
         BtnKeluar = new widget.Button();
         BtnHapusFile = new widget.Button();
+        ListTTE = new widget.ComboBox();
         txtNameFile = new widget.TextBox();
         txtLokasiFile = new widget.TextBox();
         txtNoRawat = new widget.TextBox();
@@ -196,8 +201,21 @@ public class DlgViewPdf extends javax.swing.JDialog {
         });
         panelGlass8.add(BtnHapusFile);
 
+        ListTTE.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TTE 1", "TTE 2", "TTE 3" }));
+        ListTTE.setName("ListTTE"); // NOI18N
+        ListTTE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListTTEActionPerformed(evt);
+            }
+        });
+        ListTTE.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ListTTEKeyPressed(evt);
+            }
+        });
+        panelGlass8.add(ListTTE);
+
         txtNameFile.setEditable(false);
-        txtNameFile.setText("2022_01_09_000001.pdf");
         txtNameFile.setName("txtNameFile"); // NOI18N
         txtNameFile.setPreferredSize(new java.awt.Dimension(200, 24));
         txtNameFile.addActionListener(new java.awt.event.ActionListener() {
@@ -255,21 +273,24 @@ public class DlgViewPdf extends javax.swing.JDialog {
             ctrl.getDocumentViewController().setAnnotationCallback(
             new org.icepdf.ri.common.MyAnnotationCallback(ctrl.getDocumentViewController())
             );
-            if(fileLocation.equals("local")){  
-              ctrl.openDocument("tempfile/"+txtNameFile.getText());
-            }else{
-             URL url =new URL("http://"+koneksiDB.HOSTHYBRIDWEBTTE()+"/"+koneksiDB.HYBRIDWEB()+"/"+txtLokasiFile.getText()+"/"+txtNameFile.getText());
-               ctrl.openDocument(url);
+            if(txtNameFile.getText() != null && !txtNameFile.getText().trim().isEmpty()){
+                if(fileLocation.equals("local")){  
+                    ctrl.openDocument("tempfile/"+txtNameFile.getText());
+                }else{
+                 URL url =new URL("http://" + koneksiDB.HOSTHYBRIDWEBTTE() + ":" + koneksiDB.PORTWEBTTE() + "/" + txtLokasiFile.getText() + "/" +txtNameFile.getText());
+                    ctrl.openDocument(url);
+                }
+                jScrollPane1.setViewportView(s); 
             }
-            jScrollPane1.setViewportView(s); 
         }catch (Exception e){
             
         }
     }
-    void openpdf(String file){
+    
+    void openpdf(String file) {
         try {
-            URL url =new URL("http://"+koneksiDB.HOSTHYBRIDWEBTTE()+"/"+koneksiDB.HYBRIDWEB()+"/"+txtLokasiFile.getText()+"/"+file);
-            
+            URL url = new URL("http://" + koneksiDB.HOSTHYBRIDWEBTTE() + ":" + koneksiDB.PORTWEBTTE() + "/" + txtLokasiFile.getText() + "/" + file);
+            System.out.println(url);
             SwingController ctrl = new SwingController();
             SwingViewBuilder vb = new SwingViewBuilder(ctrl);
             JPanel s = vb.buildViewerPanel();
@@ -277,11 +298,15 @@ public class DlgViewPdf extends javax.swing.JDialog {
             ctrl.setToolBarVisible(false);
             ctrl.getDocumentViewController().setAnnotationCallback(
                 new org.icepdf.ri.common.MyAnnotationCallback(ctrl.getDocumentViewController())
-            );            
+            );
+
+            // Attempt to open the document
             ctrl.openDocument(url);
+
+            // Set the viewport only if the document opened successfully
             jScrollPane1.setViewportView(s);
-            
-        } catch (Exception e) {
+
+        }catch (Exception e) {
             LOGGER.log(Level.SEVERE, "An unexpected error occurred", e);
         }
     }
@@ -290,12 +315,13 @@ public class DlgViewPdf extends javax.swing.JDialog {
             BtnViewFileActionPerformed(null);
         }else{
 //            Valid.pindah(evt,TCatatan,BtnKeluar);
-        }
+    }
 }//GEN-LAST:event_BtnViewFileKeyPressed
 
     private void BtnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluarActionPerformed
         dispose();
         deleteFile();
+        txtNameFile.setText("");
 }//GEN-LAST:event_BtnKeluarActionPerformed
 
     private void BtnKeluarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnKeluarKeyPressed
@@ -316,7 +342,7 @@ public class DlgViewPdf extends javax.swing.JDialog {
        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
        
         passphrase.isCek();
-        passphrase.setNamaFile(txtNameFile.getText(),txtLokasiFile.getText(),txtNoRawat.getText(),kodeFile, tipeBerkas);
+        passphrase.setNamaFile(txtNameFile.getText(),txtLokasiFile.getText(),txtNoRawat.getText(),kodeFile, tipeBerkas, ListTTE.getSelectedItem().toString());
         passphrase.setSize(676,168);
         passphrase.setLocationRelativeTo(internalFrame1);
         passphrase.setVisible(true);
@@ -328,19 +354,13 @@ public class DlgViewPdf extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnSignTTEKeyPressed
 
-    private void txtLokasiFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLokasiFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLokasiFileActionPerformed
-
-    private void txtNoRawatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNoRawatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNoRawatActionPerformed
-
     private void BtnHapusFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusFileActionPerformed
         // TODO add your handling code here:
         if(txtNameFile.getText() != null && !txtNameFile.getText().isEmpty() && txtLokasiFile.getText() != null && !txtLokasiFile.getText().isEmpty()){
-            System.out.println(txtNameFile.getText());
+            System.out.println(txtLokasiFile.getText() + " " + txtNameFile.getText());
+            deletePdfServer(txtLokasiFile.getText(), txtNameFile.getText());
             Sequel.hapusTTE("berkas_tte", "nama_file", "lokasi_file", txtNameFile.getText(), txtLokasiFile.getText());
+            txtNameFile.setText("");
             dispose();
         }   
     }//GEN-LAST:event_BtnHapusFileActionPerformed
@@ -348,6 +368,22 @@ public class DlgViewPdf extends javax.swing.JDialog {
     private void BtnHapusFileKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnHapusFileKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnHapusFileKeyPressed
+
+    private void ListTTEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ListTTEKeyPressed
+
+    }//GEN-LAST:event_ListTTEKeyPressed
+
+    private void ListTTEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListTTEActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ListTTEActionPerformed
+
+    private void txtNoRawatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNoRawatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNoRawatActionPerformed
+
+    private void txtLokasiFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLokasiFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLokasiFileActionPerformed
 
     /**
     * @param args the command line arguments
@@ -370,6 +406,7 @@ public class DlgViewPdf extends javax.swing.JDialog {
     private widget.Button BtnKeluar;
     private widget.Button BtnSignTTE;
     private widget.Button BtnViewFile;
+    private widget.ComboBox ListTTE;
     private widget.InternalFrame internalFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private widget.panelisi panelGlass8;
@@ -408,6 +445,22 @@ public void tampilPdfLocal(String namFile,String Location,String pathFile,String
 public void setButton(Boolean BtnTTE)
 {
     BtnSignTTE.setVisible(BtnTTE);
+}
+
+void deletePdfServer(String docpath, String FileName){
+    try {
+        // URL endpoint untuk menghapus file
+        String deleteUrl = "http://" + koneksiDB.HOSTHYBRIDWEBTTE() + ":" + koneksiDB.PORTWEBTTE() + "/delete/" + docpath.replaceFirst("^berkastte/", "") + "/" + FileName;
+        // Membuat HTTP client
+        System.out.println(deleteUrl);
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpDelete deleteRequest = new HttpDelete(deleteUrl);
+        // Eksekusi permintaan DELETE
+        HttpResponse response = (HttpResponse) httpClient.execute(deleteRequest);
+        System.out.println(response);
+    } catch (Exception e) {
+        System.out.println("Error occurred while deleting file: " + e.getMessage());
+    }
 }
 
 void deleteFile(){

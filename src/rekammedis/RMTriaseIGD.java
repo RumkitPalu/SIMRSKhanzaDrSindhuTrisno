@@ -70,7 +70,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
     private String keputusan="",pilihan="",datatriase="",finger="",kodepetugas="",FileName;
     private StringBuilder htmlContent;
     private boolean sukses=true;
-    
+    DlgViewPdf berkas=new DlgViewPdf(null,true);
     /** Creates new form DlgRujuk
      * @param parent
      * @param modal */
@@ -2633,7 +2633,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                                         "<td valign='top' cellpadding='0' cellspacing='0'>"+
                                             "<table width='100%' border='0' cellpadding='0' cellspacing='0' align='center'>"+
                                                 "<tr class='isi2'>"+
-                                                    "<td width='34%' valign='top'>Keputusan</td><td valign='top'>:&nbsp;</td><td width='65%' valign='top'>Zona Merah "+rs.getString("plan")+"</td>"+
+                                                    "<td width='34%' valign='top'>Keputusan</td><td valign='top'>:&nbsp;</td><td width='65%' valign='top'>"+rs.getString("plan")+"</td>"+
                                                 "</tr>"+
                                                 "<tr class='isi2'>"+
                                                     "<td width='34%' valign='top'>Tanggal & Jam</td><td valign='top'>:&nbsp;</td><td width='65%' valign='top'>"+rs.getString("tanggaltriase")+"</td>"+
@@ -3997,7 +3997,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 1..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 1","PDF Triase Skala 1","PDF Triase Skala 1 TTE"},"PDF Triase Skala 1 TTE");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 1..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 1","PDF Triase Skala 1","PDF Triase Skala 1 TTE"},"Lembar Triase Skala 1");
                         switch (pilihan) {
                             case "Lembar Triase Skala 1":
                                   Valid.MyReportqry("rptLembarTriaseSkala1.jasper","report","::[ Triase Skala 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
@@ -4008,18 +4008,24 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             case "PDF Triase Skala 1 TTE":
                                     if(tbTriase.getSelectedRow()>-1){
                                         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                                        FileName=tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString().replaceAll("/","_")+".pdf";
+                                        FileName=tbTriase.getValueAt(tbTriase.getSelectedRow(),2).toString().replaceAll(" ","_")+ tbTriase.getValueAt(tbTriase.getSelectedRow(),3).toString().replace("-", "")
+                                                    .replace(" ", "")
+                                                    .replace(":", "")
+                                                    .replace(".", "") + ".pdf";
                                         param.put("logobsre",Sequel.cariGambar("select setting.logo_bsre from setting"));
-                                        DlgViewPdf berkas=new DlgViewPdf(null,true);
-                                        if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_rawat='"+tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString()+"'")>0){
+                                        if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_dokumen='"+FileName+"' and kode='016'") > 0){
                                             berkas.tampilPdf(FileName,"berkastte/triase",tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString(),"016");
+                                            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                            berkas.setLocationRelativeTo(internalFrame1);
+                                            berkas.setVisible(true);
                                         }else{
                                             Valid.MyReportPDFWithName1("rptLembarTriaseSkala1TTE.jasper","report","tempfile",FileName,"::[ Triase Skala 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                             berkas.tampilPdfLocal(FileName,"local","berkastte/triase",tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString(),"016");
+                                            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                            berkas.setLocationRelativeTo(internalFrame1);
+                                            berkas.setVisible(true);
                                         }
-                                        berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-                                        berkas.setLocationRelativeTo(internalFrame1);
-                                        berkas.setVisible(true);
+                                        
 
                                         this.setCursor(Cursor.getDefaultCursor());
                                     }
@@ -4137,7 +4143,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 2..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 2","PDF Triase Skala 2","PDF Triase Skala 2 TTE"},"PDF Triase Skala 2 TTE");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 2..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 2","PDF Triase Skala 2","PDF Triase Skala 2 TTE"},"Lembar Triase Skala 2");
                         switch (pilihan) {
                             case "Lembar Triase Skala 2":
                                   Valid.MyReportqry("rptLembarTriaseSkala2.jasper","report","::[ Triase Skala 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
@@ -4148,18 +4154,23 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             case "PDF Triase Skala 2 TTE":
                                     if(tbTriase.getSelectedRow()>-1){
                                         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                                        FileName=tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString().replaceAll("/","_")+".pdf";
+                                        FileName=tbTriase.getValueAt(tbTriase.getSelectedRow(),2).toString().replaceAll(" ","_")+ tbTriase.getValueAt(tbTriase.getSelectedRow(),3).toString().replace("-", "")
+                                                    .replace(" ", "")
+                                                    .replace(":", "")
+                                                    .replace(".", "") + ".pdf";
                                         param.put("logobsre",Sequel.cariGambar("select setting.logo_bsre from setting"));
-                                        DlgViewPdf berkas=new DlgViewPdf(null,true);
-                                        if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_rawat='"+tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString()+"'")>0){
+                                        if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_dokumen='"+FileName+"' and kode='016'") > 0){
                                             berkas.tampilPdf(FileName,"berkastte/triase",tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString(),"016");
+                                            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                            berkas.setLocationRelativeTo(internalFrame1);
+                                            berkas.setVisible(true);
                                         }else{
                                             Valid.MyReportPDFWithName1("rptLembarTriaseSkala2TTE.jasper","report","tempfile",FileName,"::[ Triase Skala 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                             berkas.tampilPdfLocal(FileName,"local","berkastte/triase",tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString(),"016");
+                                            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                            berkas.setLocationRelativeTo(internalFrame1);
+                                            berkas.setVisible(true);
                                         }
-                                        berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-                                        berkas.setLocationRelativeTo(internalFrame1);
-                                        berkas.setVisible(true);
 
                                         this.setCursor(Cursor.getDefaultCursor());
                                     }
@@ -5373,7 +5384,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                         htmlContent.append(    
                             "<tr class='isi'>"+
                                 "<td valign='middle'>Plan/Keputusan</td>"+
-                                "<td valign='middle' bgcolor='"+keputusan+"' color='ffffff'>Zona Merah "+rs.getString("plan")+"</td>"+
+                                "<td valign='middle' bgcolor='"+keputusan+"' color='ffffff'>"+rs.getString("plan")+"</td>"+
                             "</tr>"+                       
                             "<tr class='isi'>"+
                                 "<td valign='middle'>&nbsp;</td>"+

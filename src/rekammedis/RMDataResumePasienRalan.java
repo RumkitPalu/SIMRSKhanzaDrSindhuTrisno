@@ -63,6 +63,7 @@ public final class RMDataResumePasienRalan extends javax.swing.JDialog {
     private RMCariJumlahObat cariobat=new RMCariJumlahObat(null,false);
     private DlgDiagnosaPenyakit penyakit=new DlgDiagnosaPenyakit(null,false);
     private String tanggal="",finger="",variabel="";
+    DlgViewPdf berkas=new DlgViewPdf(null,true);
     
     /** Creates new form DlgRujuk
      * @param parent
@@ -70,7 +71,7 @@ public final class RMDataResumePasienRalan extends javax.swing.JDialog {
     public RMDataResumePasienRalan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        MnLaporanResume.setVisible(false);
+//        MnLaporanResume.setVisible(false);
         tabMode=new DefaultTableModel(null,new Object[]{
             "Tgl.Rawat","No.Rawat","No.RM","Nama Pasien","Kode Dokter","Dokter Penanggung Jawab","Pulang","Keluhan utama riwayat penyakit yang postif",
             "Jalannya penyakit selama perawatan","Pemeriksaan penunjang yang positif","Hasil laboratorium yang positif","Diagnosa Utama","ICD10 Utama","Diagnosa Sekunder 1",
@@ -2063,16 +2064,14 @@ public final class RMDataResumePasienRalan extends javax.swing.JDialog {
         if(tbObat.getSelectedRow()>-1){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             String FileName = tbObat.getValueAt(tbObat.getSelectedRow(),1).toString().replaceAll("/","_")+".pdf";
-            DlgViewPdf berkas=new DlgViewPdf(null,true);
-            if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),1).toString()+"'")>0){
+            if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_dokumen='"+FileName+"' and kode='015'") > 0){
                 berkas.tampilPdf(FileName,"berkastte/resume_ralan",tbObat.getValueAt(tbObat.getSelectedRow(),1).toString(),"015");
+                berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                berkas.setLocationRelativeTo(internalFrame1);
+                berkas.setVisible(true);
             }else{
                 createPdf(FileName);
-                berkas.tampilPdfLocal(FileName,"local","berkastte/resume_ralan",tbObat.getValueAt(tbObat.getSelectedRow(),1).toString(),"015");
             }
-            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-            berkas.setLocationRelativeTo(internalFrame1);
-            berkas.setVisible(true);
 
             this.setCursor(Cursor.getDefaultCursor());
         }
@@ -2555,6 +2554,10 @@ public final class RMDataResumePasienRalan extends javax.swing.JDialog {
             param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+tbObat.getValueAt(tbObat.getSelectedRow(),6).toString()+"\nID "+(finger.equals("")?tbObat.getValueAt(tbObat.getSelectedRow(),5).toString():finger)+"\n"+tanggal); 
             
             Valid.MyReportPDFWithName("rptLaporanResumeTTE.jasper","report","tempfile",FileName,"::[ Laporan Resume Pasien ]::",param);
+            berkas.tampilPdfLocal(FileName,"local","berkastte/resume_ralan",tbObat.getValueAt(tbObat.getSelectedRow(),1).toString(),"015");
+            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            berkas.setLocationRelativeTo(internalFrame1);
+            berkas.setVisible(true);
         }
     } 
 }

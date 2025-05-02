@@ -29,6 +29,7 @@ import javax.swing.table.TableColumn;
 import keuangan.Jurnal;
 import laporan.DlgBerkasRawat;
 import rekammedis.MasterCariTemplateLaporanOperasi;
+import java.util.Date;
 
 public class DlgCariTagihanOperasi extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
@@ -43,6 +44,7 @@ public class DlgCariTagihanOperasi extends javax.swing.JDialog {
     private MasterCariTemplateLaporanOperasi template=new MasterCariTemplateLaporanOperasi(null,false);
     private int pilihan=0;
     private boolean sukses=true;
+    private String FileName;
     private double ttljmdokter=0,ttljmpetugas=0,ttlpendapatan=0,ttlbhp=0;
     private String Suspen_Piutang_Operasi_Ranap="",Operasi_Ranap="",Beban_Jasa_Medik_Dokter_Operasi_Ranap="",Utang_Jasa_Medik_Dokter_Operasi_Ranap="",
             Beban_Jasa_Medik_Paramedis_Operasi_Ranap="",Utang_Jasa_Medik_Paramedis_Operasi_Ranap="",HPP_Obat_Operasi_Ranap="",Persediaan_Obat_Kamar_Operasi_Ranap="",
@@ -50,6 +52,7 @@ public class DlgCariTagihanOperasi extends javax.swing.JDialog {
             Beban_Jasa_Medik_Paramedis_Operasi_Ralan="",Utang_Jasa_Medik_Paramedis_Operasi_Ralan="",HPP_Obat_Operasi_Ralan="",Persediaan_Obat_Kamar_Operasi_Ralan="",
             status="",tanggal="",mem="",norawat="",sql="",diagnosa_preop="",diagnosa_postop="",jaringan_dieksekusi="",selesaioperasi="",permintaan_pa="",laporan_operasi="",
             finger="",kodeoperator="";
+    DlgViewPdf berkas=new DlgViewPdf(null,true);
 
     /** Creates new form DlgProgramStudi
      * @param parent
@@ -2902,7 +2905,7 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
     }//GEN-LAST:event_kdasistanestesi2KeyPressed
 
     private void BtnAsnes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAsnes1ActionPerformed
-        pilihan=14;
+        pilihan=16;
         petugas.emptTeks();
         petugas.isCek();
         petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
@@ -2952,7 +2955,27 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
                 kodeoperator=Sequel.cariIsi("select operasi.operator1 from operasi where operasi.no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString()+"' and tgl_operasi='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()+"'");
                 finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",kodeoperator);
                 param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+tbDokter.getValueAt(tbDokter.getSelectedRow()+1,5).toString()+"\nID "+(finger.equals("")?kodeoperator:finger)+"\n"+Valid.SetTgl3(tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()));  
-            
+                finger="";
+                try {
+                    try{
+                        rs=koneksi.prepareStatement(
+                                "select paket_operasi.nm_perawatan from operasi inner join paket_operasi on paket_operasi.kode_paket=operasi.kode_paket where "+
+                                "operasi.no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString()+"' and operasi.tgl_operasi='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()+"' ").executeQuery();
+                        while(rs.next()){
+                            finger=rs.getString("nm_perawatan")+", "+finger;
+                        }
+                    }catch (Exception e) {
+                        System.out.println("Notif : "+e);
+                    } finally{
+                        if(rs!=null){
+                            rs.close();
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Notif : "+e);
+                }
+                finger=finger.substring(0,finger.length()-2);
+                param.put("tindakan",finger);  
                 if(Sequel.cariIsi("select reg_periksa.status_lanjut from reg_periksa where reg_periksa.no_rawat=?",tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString()).equals("Ralan")){
                     try {
                         try {
@@ -2962,7 +2985,7 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
                                 "pemeriksaan_ralan.gcs,pemeriksaan_ralan.keluhan,pemeriksaan_ralan.pemeriksaan,pemeriksaan_ralan.alergi,pemeriksaan_ralan.rtl,"+
                                 "pemeriksaan_ralan.penilaian from pemeriksaan_ralan where pemeriksaan_ralan.no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString()+"' "+
                                 "and concat(pemeriksaan_ralan.tgl_perawatan,' ',pemeriksaan_ralan.jam_rawat) <= '"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()+"' "+
-                                "order by pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat desc limit 1").executeQuery();
+                                "order by pemeriksaan_ralan.tgl_perawatan desc,pemeriksaan_ralan.jam_rawat desc limit 1").executeQuery();
                             if(rs.next()){
                                 param.put("tgl_perawatan",rs.getDate("tgl_perawatan"));
                                 param.put("jam_rawat",rs.getString("jam_rawat"));
@@ -2999,7 +3022,7 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
                                 "pemeriksaan_ranap.gcs,pemeriksaan_ranap.keluhan,pemeriksaan_ranap.pemeriksaan,pemeriksaan_ranap.alergi,pemeriksaan_ranap.rtl,"+
                                 "pemeriksaan_ranap.penilaian from pemeriksaan_ranap where pemeriksaan_ranap.no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString()+"' "+
                                 "and concat(pemeriksaan_ranap.tgl_perawatan,' ',pemeriksaan_ranap.jam_rawat) <= '"+tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString()+"' "+
-                                "order by pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat desc limit 1").executeQuery();
+                                "order by pemeriksaan_ranap.tgl_perawatan desc,pemeriksaan_ranap.jam_rawat desc limit 1").executeQuery();
                             if(rs.next()){
                                 param.put("tgl_perawatan",rs.getDate("tgl_perawatan"));
                                 param.put("jam_rawat",rs.getString("jam_rawat"));
@@ -3159,17 +3182,23 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         if(tbDokter.getSelectedRow()>-1){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            String FileName = tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString().replaceAll("/","_")+".pdf";
-            DlgViewPdf berkas=new DlgViewPdf(null,true);
-            if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_rawat='"+tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString()+"'")>0){
+//            if(tbDokter.getValueAt(tbDokter.getSelectedRow() + 1,39) != null){
+//                FileName = tbDokter.getValueAt(tbDokter.getSelectedRow() + 1,39).toString().replaceAll("/","_")+".pdf";
+//            } else {
+//                FileName = tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString().replaceAll("/","_")+".pdf";
+//            }
+            FileName =tbDokter.getValueAt(tbDokter.getSelectedRow(),2).toString().replace(" ","_").replace(",","_")+ tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString().replace("-", "")
+                    .replace(" ", "")
+                    .replace(":", "")
+                    .replace(".", "") + ".pdf";
+            if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_dokumen='"+FileName+"' and kode='019'") > 0){
                 berkas.tampilPdf(FileName,"berkastte/laporan_operasi",tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString(),"019");
+                berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                berkas.setLocationRelativeTo(internalFrame1);
+                berkas.setVisible(true);
             }else{
                 createPdf(FileName);
-                berkas.tampilPdfLocal(FileName,"local","berkastte/laporan_operasi",tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString(),"019");
             }
-            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-            berkas.setLocationRelativeTo(internalFrame1);
-            berkas.setVisible(true);
 
             this.setCursor(Cursor.getDefaultCursor());
         }
@@ -3549,6 +3578,11 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
         NoRawat.setText(pasien);
     }
     
+    public void setPasien(String pasien, Date tanggal){
+        NoRawat.setText(pasien);
+        Tgl1.setDate(tanggal);
+    }
+    
     void createPdf(String FileName){
         if(tbDokter.getSelectedRow()>-1){
             if(!tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString().equals("")){
@@ -3643,6 +3677,10 @@ private void MnHapusObatOperasiActionPerformed(java.awt.event.ActionEvent evt) {
                     }
                 }
                 Valid.MyReportPDFWithName("rptLaporanOperasiTTE.jasper","report","tempfile",FileName,"::[ Laporan Operasi ]::",param);
+                berkas.tampilPdfLocal(FileName,"local","berkastte/laporan_operasi",tbDokter.getValueAt(tbDokter.getSelectedRow(),1).toString(),"019");
+                berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                berkas.setLocationRelativeTo(internalFrame1);
+                berkas.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(rootPane,"Silahkan pilih data, klik pada No.Rawat ..!!");
             } 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 5.2.0  -->
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0f505995-42c1-4cc5-b34d-0896041d3a11">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -270,7 +270,7 @@
 				</textElement>
 				<text><![CDATA[No. Rekam Medis :]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="470" y="90" width="78" height="14" uuid="e895e828-344b-4070-a63d-9a55d5c6707e"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9"/>
@@ -278,7 +278,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="70" y="90" width="176" height="14" uuid="fe286446-47d7-4409-827a-27798355f33b">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -294,7 +294,7 @@
 					<pen lineWidth="1.0"/>
 				</graphicElement>
 			</line>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="274" y="90" width="106" height="14" uuid="2968fada-116f-49a6-96b7-f62bfc77c5ec">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -322,7 +322,7 @@
 				</textElement>
 				<text><![CDATA[JK :]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="70" y="110" width="177" height="14" uuid="7dd40592-503c-46e9-97ef-935c16e50183"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9"/>
@@ -415,7 +415,7 @@
 				</textElement>
 				<text><![CDATA[Tanggal :]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="300" y="110" width="239" height="14" uuid="638393c7-92bc-478a-aae7-82e4f49a2049"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9"/>
@@ -439,7 +439,7 @@
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="90" y="140" width="182" height="15" uuid="dd4c38a7-2654-4445-a4b3-4c8cbde8c3d8">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -483,7 +483,7 @@
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="90" y="160" width="182" height="15" uuid="91691426-5d97-4ade-8f4e-d458533de326">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -516,7 +516,7 @@
 				</textElement>
 				<text><![CDATA[SNCN]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="341" y="140" width="206" height="15" uuid="d416259e-870d-45f9-a8ae-41dff7db23d1">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -549,7 +549,7 @@
 				</textElement>
 				<text><![CDATA[Tindakan]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="341" y="160" width="206" height="15" uuid="5e38c98b-4ada-4db9-a71a-9616fbc57f05">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -593,7 +593,7 @@
 				</textElement>
 				<text><![CDATA[Identitas]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="150" y="213" width="122" height="15" uuid="8df75cca-2c32-4676-8a93-d320c242ee23">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -626,7 +626,7 @@
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="430" y="213" width="117" height="15" uuid="9a5b57c5-fe6d-4ed2-8cc1-831b2520231e">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -659,7 +659,7 @@
 				</textElement>
 				<text><![CDATA[Penandaan Area Operasi]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="150" y="234" width="122" height="15" uuid="7bc50d79-70bf-437f-adcb-12c3371a96fb">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -692,7 +692,7 @@
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="430" y="234" width="117" height="15" uuid="48883337-79de-4f15-becb-6324cc7cb19f">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -725,7 +725,7 @@
 				</textElement>
 				<text><![CDATA[Surat Ijin Bedah]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="150" y="255" width="122" height="15" uuid="938bdb48-0e9a-4258-a3d2-65f68fd9fb6d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -758,7 +758,7 @@
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="430" y="255" width="117" height="15" uuid="a018602a-7e27-4f39-828c-a5ed4f9d9f15">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -791,7 +791,7 @@
 				</textElement>
 				<text><![CDATA[Surat Ijin Tranfusi Darah]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="150" y="276" width="122" height="15" uuid="5c0fcd30-8859-4682-bf90-0985d9cd8b76">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -835,7 +835,7 @@
 				</textElement>
 				<text><![CDATA[Radiologi]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="107" y="317" width="186" height="15" uuid="fa51cb6d-01e6-43a6-8a05-1bafe213d018">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -846,7 +846,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pemeriksaan_penunjang_rontgen}+($F{keterangan_pemeriksaan_penunjang_rontgen}.equals("")?"":", "+$F{keterangan_pemeriksaan_penunjang_rontgen})]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="362" y="317" width="186" height="15" uuid="dd108b93-6408-42a6-a259-3f3b153bad89">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -879,7 +879,7 @@
 				</textElement>
 				<text><![CDATA[EKG]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="107" y="338" width="186" height="15" uuid="dc9890cb-6808-481b-b2a8-6007673d6a98">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -890,7 +890,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pemeriksaan_penunjang_usg}+($F{keterangan_pemeriksaan_penunjang_usg}.equals("")?"":", "+$F{keterangan_pemeriksaan_penunjang_usg})]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="362" y="338" width="186" height="15" uuid="47d305fe-7f8f-4741-8469-d4e2b0f598d4">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -967,7 +967,7 @@
 				</textElement>
 				<text><![CDATA[MRI]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="107" y="359" width="186" height="15" uuid="54394bec-3cb6-453b-a208-fb0d070a8626">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -1000,7 +1000,7 @@
 				</textElement>
 				<text><![CDATA[Persiapan Darah]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="150" y="381" width="398" height="15" uuid="1864ae3d-036b-44b4-b773-6cf27cfbe34e">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -1046,7 +1046,7 @@
 					<jr:codeExpression><![CDATA[$P{finger2}]]></jr:codeExpression>
 				</jr:QRCode>
 			</componentElement>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="320" y="106" width="220" height="15" uuid="6ea48481-f15a-4169-9e1b-675850c6d206"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>
@@ -1076,7 +1076,7 @@
 					<pen lineWidth="1.0"/>
 				</graphicElement>
 			</line>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="26" y="106" width="214" height="15" uuid="748a4e32-2eb5-4dfa-8893-653e1b4e280a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10"/>

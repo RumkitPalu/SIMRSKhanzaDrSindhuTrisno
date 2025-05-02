@@ -47,6 +47,7 @@ public class SuratKontrol extends javax.swing.JDialog {
     private DlgCariPoli2 poli2=new DlgCariPoli2(null,false);
     private String URUTNOREG="",status="",kdpoli="",nmpoli="",noantri="",aktifjadwal="";
     private DlgCariPenyakit penyakit=new DlgCariPenyakit(null,false);
+    DlgViewPdf berkas=new DlgViewPdf(null,true);
     private String finger="";
     
 
@@ -56,7 +57,7 @@ public class SuratKontrol extends javax.swing.JDialog {
     public SuratKontrol(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        MnSurat.setVisible(false);
+//        MnSurat.setVisible(false);
         tabMode=new DefaultTableModel(null,new Object[]{
                 "Tahun","No.RM","Nama Pasien","Diagnosa","Terapi","Alasan 1","Alasan 2",
                 "Rencana Tindak Lanjut 1","Rencana Tindak Lanjut 2","Periksa Kembali",
@@ -299,6 +300,7 @@ public class SuratKontrol extends javax.swing.JDialog {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         MnSurat = new javax.swing.JMenuItem();
         MnDigitalTTE = new javax.swing.JMenuItem();
+        MnDigitalTTE1 = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -364,6 +366,8 @@ public class SuratKontrol extends javax.swing.JDialog {
         NoReg = new widget.TextBox();
         jLabel18 = new widget.Label();
         btnDiagnosa = new widget.Button();
+        jLabel38 = new widget.Label();
+        noSPRI = new widget.TextBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -398,6 +402,23 @@ public class SuratKontrol extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(MnDigitalTTE);
+
+        MnDigitalTTE1.setBackground(new java.awt.Color(255, 255, 254));
+        MnDigitalTTE1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnDigitalTTE1.setForeground(new java.awt.Color(50, 50, 50));
+        MnDigitalTTE1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnDigitalTTE1.setText("Sign Digital Signature SPRI");
+        MnDigitalTTE1.setActionCommand("Sign Digital Signature SPRI");
+        MnDigitalTTE1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnDigitalTTE1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnDigitalTTE1.setName("MnDigitalTTE1"); // NOI18N
+        MnDigitalTTE1.setPreferredSize(new java.awt.Dimension(250, 26));
+        MnDigitalTTE1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnDigitalTTE1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnDigitalTTE1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -581,6 +602,11 @@ public class SuratKontrol extends javax.swing.JDialog {
 
         TCari.setName("TCari"); // NOI18N
         TCari.setPreferredSize(new java.awt.Dimension(450, 23));
+        TCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TCariActionPerformed(evt);
+            }
+        });
         TCari.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TCariKeyPressed(evt);
@@ -640,7 +666,7 @@ public class SuratKontrol extends javax.swing.JDialog {
         R2.setPreferredSize(new java.awt.Dimension(90, 23));
         panelCari.add(R2);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-03-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-11-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -648,6 +674,11 @@ public class SuratKontrol extends javax.swing.JDialog {
         DTPCari1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 DTPCari1ItemStateChanged(evt);
+            }
+        });
+        DTPCari1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DTPCari1ActionPerformed(evt);
             }
         });
         DTPCari1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -663,7 +694,7 @@ public class SuratKontrol extends javax.swing.JDialog {
         jLabel22.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel22);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-03-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-11-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -684,7 +715,7 @@ public class SuratKontrol extends javax.swing.JDialog {
         R3.setPreferredSize(new java.awt.Dimension(85, 23));
         panelCari.add(R3);
 
-        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-03-2024" }));
+        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-11-2024" }));
         DTPCari3.setDisplayFormat("dd-MM-yyyy");
         DTPCari3.setName("DTPCari3"); // NOI18N
         DTPCari3.setOpaque(false);
@@ -707,7 +738,7 @@ public class SuratKontrol extends javax.swing.JDialog {
         jLabel25.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel25);
 
-        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-03-2024" }));
+        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-11-2024" }));
         DTPCari4.setDisplayFormat("dd-MM-yyyy");
         DTPCari4.setName("DTPCari4"); // NOI18N
         DTPCari4.setOpaque(false);
@@ -730,7 +761,7 @@ public class SuratKontrol extends javax.swing.JDialog {
 
         PanelInput.setName("PanelInput"); // NOI18N
         PanelInput.setOpaque(false);
-        PanelInput.setPreferredSize(new java.awt.Dimension(192, 216));
+        PanelInput.setPreferredSize(new java.awt.Dimension(192, 256));
         PanelInput.setLayout(new java.awt.BorderLayout(1, 1));
 
         ChkInput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/143.png"))); // NOI18N
@@ -754,7 +785,6 @@ public class SuratKontrol extends javax.swing.JDialog {
         PanelInput.add(ChkInput, java.awt.BorderLayout.PAGE_END);
 
         FormInput.setName("FormInput"); // NOI18N
-        FormInput.setPreferredSize(new java.awt.Dimension(190, 107));
         FormInput.setLayout(null);
 
         jLabel4.setText("Pasien :");
@@ -791,7 +821,7 @@ public class SuratKontrol extends javax.swing.JDialog {
         TPasien.setBounds(185, 10, 190, 23);
 
         TanggalSurat.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalSurat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-03-2024 09:42:39" }));
+        TanggalSurat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-11-2024 08:40:38" }));
         TanggalSurat.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalSurat.setName("TanggalSurat"); // NOI18N
         TanggalSurat.setOpaque(false);
@@ -841,10 +871,10 @@ public class SuratKontrol extends javax.swing.JDialog {
         FormInput.add(BtnDokter);
         BtnDokter.setBounds(347, 130, 28, 23);
 
-        jLabel37.setText("Status :");
+        jLabel37.setText("No SPRI :");
         jLabel37.setName("jLabel37"); // NOI18N
         FormInput.add(jLabel37);
-        jLabel37.setBounds(546, 160, 60, 23);
+        jLabel37.setBounds(0, 190, 92, 23);
 
         jLabel11.setText("Unit/Poli :");
         jLabel11.setName("jLabel11"); // NOI18N
@@ -946,7 +976,7 @@ public class SuratKontrol extends javax.swing.JDialog {
         jLabel14.setBounds(0, 160, 92, 23);
 
         TanggalPeriksa.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalPeriksa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "22-03-2024 09:42:39" }));
+        TanggalPeriksa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "15-11-2024 08:40:39" }));
         TanggalPeriksa.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPeriksa.setName("TanggalPeriksa"); // NOI18N
         TanggalPeriksa.setOpaque(false);
@@ -1000,6 +1030,11 @@ public class SuratKontrol extends javax.swing.JDialog {
 
         Terapi.setHighlighter(null);
         Terapi.setName("Terapi"); // NOI18N
+        Terapi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TerapiActionPerformed(evt);
+            }
+        });
         Terapi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TerapiKeyPressed(evt);
@@ -1039,6 +1074,26 @@ public class SuratKontrol extends javax.swing.JDialog {
         });
         FormInput.add(btnDiagnosa);
         btnDiagnosa.setBounds(347, 40, 28, 23);
+
+        jLabel38.setText("Status :");
+        jLabel38.setName("jLabel38"); // NOI18N
+        FormInput.add(jLabel38);
+        jLabel38.setBounds(546, 160, 60, 23);
+
+        noSPRI.setHighlighter(null);
+        noSPRI.setName("noSPRI"); // NOI18N
+        noSPRI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noSPRIActionPerformed(evt);
+            }
+        });
+        noSPRI.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                noSPRIKeyPressed(evt);
+            }
+        });
+        FormInput.add(noSPRI);
+        noSPRI.setBounds(96, 190, 266, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -1537,21 +1592,63 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         // TODO add your handling code here:
         if(tbObat.getSelectedRow()>-1){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            String FileName = tbObat.getValueAt(tbObat.getSelectedRow(),10).toString().replaceAll("-","_").replaceAll(":","_").replaceAll(" ","_").replaceAll("\\.","_")+".pdf";
-            DlgViewPdf berkas=new DlgViewPdf(null,true);
-            if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),10).toString().replaceAll("-","_").replaceAll(":","_").replaceAll(" ","_").replaceAll("\\.","_")+"'")>0){
-                berkas.tampilPdf(FileName,"berkastte/surat_kontrol_internal",tbObat.getValueAt(tbObat.getSelectedRow(),10).toString().replaceAll("-","_").replaceAll(":","_").replaceAll(" ","_").replaceAll("\\.","_"),"017");
+            String FileName =tbObat.getValueAt(tbObat.getSelectedRow(),1).toString().replaceAll(" ","_")+ tbObat.getValueAt(tbObat.getSelectedRow(),9).toString().replace("-", "")
+                      .replace(" ", "")
+                      .replace(":", "")
+                      .replace(".", "") + ".pdf";
+            if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_dokumen='"+FileName+"' and kode='017'") > 0){
+                berkas.tampilPdf(FileName,"berkastte/surat_kontrol_internal",tbObat.getValueAt(tbObat.getSelectedRow(),11).toString(),"017");
+                berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                berkas.setLocationRelativeTo(internalFrame1);
+                berkas.setVisible(true);
             }else{
                 createPdf(FileName);
-                berkas.tampilPdfLocal(FileName,"local","berkastte/surat_kontrol_internal",tbObat.getValueAt(tbObat.getSelectedRow(),10).toString().replaceAll("-","_").replaceAll(":","_").replaceAll(" ","_").replaceAll("\\.","_"),"017");
             }
-            berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-            berkas.setLocationRelativeTo(internalFrame1);
-            berkas.setVisible(true);
 
             this.setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_MnDigitalTTEActionPerformed
+
+    private void TCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TCariActionPerformed
+
+    private void DTPCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DTPCari1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DTPCari1ActionPerformed
+
+    private void TerapiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TerapiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TerapiActionPerformed
+
+    private void noSPRIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noSPRIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noSPRIActionPerformed
+
+    private void noSPRIKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_noSPRIKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noSPRIKeyPressed
+
+    private void MnDigitalTTE1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnDigitalTTE1ActionPerformed
+        // TODO add your handling code here:
+        if(tbObat.getSelectedRow()>-1){
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            String FileName =tbObat.getValueAt(tbObat.getSelectedRow(),1).toString().replaceAll(" ","_")+ tbObat.getValueAt(tbObat.getSelectedRow(),9).toString().replace("-", "")
+                      .replace(" ", "")
+                      .replace(":", "")
+                      .replace(".", "") + ".pdf";
+            if(Sequel.cariInteger("select count(no_rawat) from berkas_tte where no_dokumen='"+FileName+"' and kode='017'") > 0){
+                berkas.tampilPdf(FileName,"berkastte/surat_kontrol_internal",tbObat.getValueAt(tbObat.getSelectedRow(),11).toString(),"017");
+                berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                berkas.setLocationRelativeTo(internalFrame1);
+                berkas.setVisible(true);
+            }else{
+                createPdf1(FileName);
+            }
+
+            this.setCursor(Cursor.getDefaultCursor());
+        }
+    }//GEN-LAST:event_MnDigitalTTE1ActionPerformed
 
     /**
     * @param args the command line arguments
@@ -1593,6 +1690,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.TextBox KdPoli;
     private widget.Label LCount;
     private javax.swing.JMenuItem MnDigitalTTE;
+    private javax.swing.JMenuItem MnDigitalTTE1;
     private javax.swing.JMenuItem MnSurat;
     private widget.TextBox NmDokter;
     private widget.TextBox NmPoli;
@@ -1627,6 +1725,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.Label jLabel22;
     private widget.Label jLabel25;
     private widget.Label jLabel37;
+    private widget.Label jLabel38;
     private widget.Label jLabel4;
     private widget.Label jLabel5;
     private widget.Label jLabel6;
@@ -1635,6 +1734,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.Label jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.TextBox noSPRI;
     private widget.panelisi panelCari;
     private widget.panelisi panelGlass10;
     private widget.panelisi panelGlass8;
@@ -1702,7 +1802,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                         rs.getInt("tahun"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
                         rs.getString("diagnosa"),rs.getString("terapi"),rs.getString("alasan1"),
                         rs.getString("alasan2"),rs.getString("rtl1"),rs.getString("rtl2"),
-                        rs.getString("tanggal_datang"),rs.getString("tanggal_rujukan"),rs.getString("no_antrian"),
+                        rs.getString("tanggal_datang").substring(0,19),rs.getString("tanggal_rujukan").substring(0,19),rs.getString("no_antrian"),
                         noantri,rs.getString("kd_dokter"),rs.getString("nm_dokter"),kdpoli,
                         nmpoli,rs.getString("status")
                     });                    
@@ -1737,6 +1837,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Diagnosa.setText("");
         TanggalSurat.setDate(new Date());
         TanggalSurat.requestFocus();
+        noSPRI.setText("");
         isNomer();
     }
     
@@ -1777,25 +1878,32 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             KdPoli.setText(tbObat.getValueAt(tbObat.getSelectedRow(),15).toString());
             NmPoli.setText(tbObat.getValueAt(tbObat.getSelectedRow(),16).toString());
             Status.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),17).toString());
+            noSPRI.setText(Sequel.cariIsi("select no_spri from no_spri_skdp_bpjs where no_antrian =?", tbObat.getValueAt(tbObat.getSelectedRow(),11).toString()));
         }
     }
     
-    public void setNoRm(String norm,String nama) {
+    public void setNoRm(String norawat, String norm,String nama) {
         TNoRM.setText(norm);
         TPasien.setText(nama);
         TCari.setText(norm);
+        System.out.println(norawat);
+        System.out.println(Sequel.cariIsi("select bridging_surat_kontrol_bpjs.no_surat from bridging_sep inner join bridging_surat_kontrol_bpjs on bridging_surat_kontrol_bpjs.no_sep=bridging_sep.no_sep where no_rawat =?", norawat));
+        noSPRI.setText(Sequel.cariIsi("select bridging_surat_kontrol_bpjs.no_surat from bridging_sep inner join bridging_surat_kontrol_bpjs on bridging_surat_kontrol_bpjs.no_sep=bridging_sep.no_sep where no_rawat =?", norawat));
         ChkInput.setSelected(true);
         isForm();
         tampil();
     }
     
-    public void setNoRm(String norm,String nama,String kodepoli,String namapoli,String kodedokter,String namadokter) {
+    public void setNoRm(String norawat,String norm,String nama,String kodepoli,String namapoli,String kodedokter,String namadokter) {
         TNoRM.setText(norm);
         TPasien.setText(nama);
         KdPoli.setText(kodepoli);
         NmPoli.setText(namapoli);
         KdDokter.setText(kodedokter);
         NmDokter.setText(namadokter);
+        System.out.println(norawat);
+        System.out.println(Sequel.cariIsi("select bridging_surat_kontrol_bpjs.no_surat from bridging_sep inner join bridging_surat_kontrol_bpjs on bridging_surat_kontrol_bpjs.no_sep=bridging_sep.no_sep where no_rawat =?", norawat));
+        noSPRI.setText(Sequel.cariIsi("select bridging_surat_kontrol_bpjs.no_surat from bridging_sep inner join bridging_surat_kontrol_bpjs on bridging_surat_kontrol_bpjs.no_sep=bridging_sep.no_sep where no_rawat =?", norawat));
         TCari.setText(norm);
         ChkInput.setSelected(true);
         isForm();
@@ -1805,7 +1913,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private void isForm(){
         if(ChkInput.isSelected()==true){
             ChkInput.setVisible(false);
-            PanelInput.setPreferredSize(new Dimension(WIDTH,216));
+            PanelInput.setPreferredSize(new Dimension(WIDTH,256));
             FormInput.setVisible(true);      
             ChkInput.setVisible(true);
         }else if(ChkInput.isSelected()==false){           
@@ -1829,26 +1937,28 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     private void isBooking(){
         if(Sequel.menyimpantf("skdp_bpjs","?,?,?,?,?,?,?,?,?,?,?,?,?","Tahun dan nomor surat",13,new String[]{
-             TanggalPeriksa.getSelectedItem().toString().substring(6,10),TNoRM.getText(),Diagnosa.getText(),Terapi.getText(),
-             Alasan1.getText(),Alasan2.getText(),Rtl1.getText(),Rtl2.getText(),Valid.SetTgl(TanggalPeriksa.getSelectedItem()+"")+" "+TanggalPeriksa.getSelectedItem().toString().substring(11,19),
-             Valid.SetTgl(TanggalSurat.getSelectedItem()+"")+" "+TanggalSurat.getSelectedItem().toString().substring(11,19),NoSurat.getText(),KdDokter.getText(),Status.getSelectedItem().toString()
-         })==true){
-             Sequel.menyimpan2("booking_registrasi","?,?,?,?,?,?,?,?,?,?,?","Pasien dan Tanggal",11,new String[]{
-                Valid.SetTgl(TanggalSurat.getSelectedItem()+""),TanggalSurat.getSelectedItem().toString().substring(11,19),TNoRM.getText(),
-                Valid.SetTgl(TanggalPeriksa.getSelectedItem()+""),KdDokter.getText(),
-                KdPoli.getText(),NoReg.getText(),Sequel.cariIsi("select pasien.kd_pj from pasien where pasien.no_rkm_medis=?",TNoRM.getText()),"0",
-                Valid.SetTgl(TanggalPeriksa.getSelectedItem()+"")+" "+TanggalPeriksa.getSelectedItem().toString().substring(11,19),
-                "belum"
-             });
-             tabMode.addRow(new String[]{
-                TanggalPeriksa.getSelectedItem().toString().substring(6,10),TNoRM.getText(),TPasien.getText(),Diagnosa.getText(),Terapi.getText(),Alasan1.getText(),Alasan2.getText(),
-                Rtl1.getText(),Rtl2.getText(),Valid.SetTgl(TanggalPeriksa.getSelectedItem()+"")+" "+TanggalPeriksa.getSelectedItem().toString().substring(11,19),
-                Valid.SetTgl(TanggalSurat.getSelectedItem()+"")+" "+TanggalSurat.getSelectedItem().toString().substring(11,19),NoSurat.getText(),NoReg.getText(),
-                KdDokter.getText(),NmDokter.getText(),KdPoli.getText(),NmPoli.getText(),Status.getSelectedItem().toString()
-             });
-             emptTeks();
-             LCount.setText(""+tabMode.getRowCount());
-         } 
+            TanggalPeriksa.getSelectedItem().toString().substring(6,10),TNoRM.getText(),Diagnosa.getText(),Terapi.getText(),
+            Alasan1.getText(),Alasan2.getText(),Rtl1.getText(),Rtl2.getText(),Valid.SetTgl(TanggalPeriksa.getSelectedItem()+"")+" "+TanggalPeriksa.getSelectedItem().toString().substring(11,19),
+            Valid.SetTgl(TanggalSurat.getSelectedItem()+"")+" "+TanggalSurat.getSelectedItem().toString().substring(11,19),NoSurat.getText(),KdDokter.getText(),Status.getSelectedItem().toString()
+        })==true){
+            if(Sequel.menyimpantf("no_spri_skdp_bpjs","?,?","No. SPRI",2,new String[]{NoSurat.getText(),noSPRI.getText()})==true){
+                Sequel.menyimpan2("booking_registrasi","?,?,?,?,?,?,?,?,?,?,?","Pasien dan Tanggal",11,new String[]{
+                    Valid.SetTgl(TanggalSurat.getSelectedItem()+""),TanggalSurat.getSelectedItem().toString().substring(11,19),TNoRM.getText(),
+                    Valid.SetTgl(TanggalPeriksa.getSelectedItem()+""),KdDokter.getText(),
+                    KdPoli.getText(),NoReg.getText(),Sequel.cariIsi("select pasien.kd_pj from pasien where pasien.no_rkm_medis=?",TNoRM.getText()),"0",
+                    Valid.SetTgl(TanggalPeriksa.getSelectedItem()+"")+" "+TanggalPeriksa.getSelectedItem().toString().substring(11,19),
+                    "belum"
+                });
+                tabMode.addRow(new String[]{
+                    TanggalPeriksa.getSelectedItem().toString().substring(6,10),TNoRM.getText(),TPasien.getText(),Diagnosa.getText(),Terapi.getText(),Alasan1.getText(),Alasan2.getText(),
+                    Rtl1.getText(),Rtl2.getText(),Valid.SetTgl(TanggalPeriksa.getSelectedItem()+"")+" "+TanggalPeriksa.getSelectedItem().toString().substring(11,19),
+                    Valid.SetTgl(TanggalSurat.getSelectedItem()+"")+" "+TanggalSurat.getSelectedItem().toString().substring(11,19),NoSurat.getText(),NoReg.getText(),
+                    KdDokter.getText(),NmDokter.getText(),KdPoli.getText(),NmPoli.getText(),Status.getSelectedItem().toString()
+                });
+                emptTeks();
+                LCount.setText(""+tabMode.getRowCount());
+            }
+        } 
     }
     
     private void createPdf(String FileName){
@@ -1893,7 +2003,65 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     tabMode.getValueAt(tbObat.getSelectedRow(),16).toString()+"','"+
                     tabMode.getValueAt(tbObat.getSelectedRow(),17).toString()+"','','','','','','','','','','','','','','','','','','',''","Surat Kotrol");
 
-                Valid.MyReportPDFWithName("rptSuratSKDPBPJSTTE.jasper","report","tempfile",FileName,"::[ Surat Kontrol ]::",param); 
+                Valid.MyReportPDFWithName("rptSuratSKDPBPJSTTE.jasper","report","tempfile",FileName,"::[ Surat Kontrol ]::",param);
+                berkas.tampilPdfLocal(FileName,"local","berkastte/surat_kontrol_internal",tbObat.getValueAt(tbObat.getSelectedRow(),11).toString(),"017");
+                berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                berkas.setLocationRelativeTo(internalFrame1);
+                berkas.setVisible(true);
+                this.setCursor(Cursor.getDefaultCursor());
+            }else{
+                JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih terlebih dulu data yang mau anda hapus...\n Klik data pada table untuk memilih data...!!!!");
+            }
+        }
+    }
+    
+    private void createPdf1(String FileName){
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, data sudah habis...!!!!");
+            TanggalSurat.requestFocus();
+        }else if(TPasien.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Gagal menghapus. Pilih dulu data yang mau dihapus.\nKlik data pada table untuk memilih...!!!!");
+        }else if(!(TPasien.getText().trim().equals(""))){
+            if(tbObat.getSelectedRow()!= -1){
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                Map<String, Object> param = new HashMap<>();  
+                param.put("namars",akses.getnamars());
+                param.put("alamatrs",akses.getalamatrs());
+                param.put("kotars",akses.getkabupatenrs());
+                param.put("propinsirs",akses.getpropinsirs());
+                param.put("kontakrs",akses.getkontakrs());
+                param.put("emailrs",akses.getemailrs());   
+                param.put("logo",Sequel.cariGambar("select setting.logo from setting")); 
+                param.put("logobsre",Sequel.cariGambar("select setting.logo_bsre from setting"));
+                finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",tbObat.getValueAt(tbObat.getSelectedRow(),13).toString());
+                param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+tbObat.getValueAt(tbObat.getSelectedRow(),14).toString()+"\nID "+(finger.equals("")?tbObat.getValueAt(tbObat.getSelectedRow(),13).toString():finger)+"\n"+Valid.SetTgl3(tbObat.getValueAt(tbObat.getSelectedRow(),10).toString()));
+                String dateString = TanggalPeriksa.getSelectedItem().toString().substring(0, 10);
+                Sequel.queryu("delete from temporary_booking_registrasi");                
+                Sequel.menyimpan("temporary_booking_registrasi","'0','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),0).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),1).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),2).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),3).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),4).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),5).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),6).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),7).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),8).toString()+"','"+
+                    dateString+"','"+
+                    TanggalSurat.getSelectedItem()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),11).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),12).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),13).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),14).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),15).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),16).toString()+"','"+
+                    tabMode.getValueAt(tbObat.getSelectedRow(),17).toString()+"','','','','','','','','','','','','','','','','','','',''","Surat Kotrol");
+
+                Valid.MyReportPDFWithName("rptSuratSKDPBPJSTTE1.jasper","report","tempfile",FileName,"::[ Surat Kontrol ]::",param);
+                berkas.tampilPdfLocal(FileName,"local","berkastte/surat_kontrol_internal",tbObat.getValueAt(tbObat.getSelectedRow(),11).toString(),"017");
+                berkas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                berkas.setLocationRelativeTo(internalFrame1);
+                berkas.setVisible(true);
                 this.setCursor(Cursor.getDefaultCursor());
             }else{
                 JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih terlebih dulu data yang mau anda hapus...\n Klik data pada table untuk memilih data...!!!!");
